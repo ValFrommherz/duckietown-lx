@@ -26,11 +26,19 @@ def PIDController(
         e:       current tracking error (automatically becomes prev_e at next iteration).
         e_int:   current integral error (automatically becomes prev_int at next iteration).
     """
+    k_p = 5.0
+    k_i = .2
+    k_d = .1
+    # Calculate e
+    e = theta_ref - theta_hat
+    # Calculate e_i
+    e_int = prev_int + prev_e * delta_t # integral error at the previous instant plus the new increment
+    print(f"The finite sum of the tracking error is {e_int}")
+     # Calculate e_d
+    e_d = (prev_e - e)/delta_t
 
     # TODO: these are random values, you have to implement your own PID controller in here
-    omega = np.random.uniform(-8.0, 8.0)
-    e = np.random.random()
-    e_int = np.random.random()
+    omega = k_p * prev_e + k_i * e_int + k_d * e_d
     # Hint: print for debugging
     # print(f"\n\nDelta time : {delta_t} \nE : {np.rad2deg(e)} \nE int : {e_int} \nPrev e : {prev_e} \nU : {u} \nTheta hat: {np.rad2deg(theta_hat)} \n")
     # ---
